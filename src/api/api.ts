@@ -2,7 +2,11 @@ import axios from 'axios';
 
 import { ICategory, IProduct } from '../types/types';
 
-const BASE_URL = 'http://localhost:5000/api';
+let schema = 'https://';
+if (process.env.NODE_ENV !== 'production') {
+  schema = 'http://';
+}
+const BASE_URL = schema + process.env.REACT_APP_API_URL + '/api';
 
 export const fetchProducts = async (): Promise<IProduct[]> => {
   const response = await fetch(`${BASE_URL}/products`);
@@ -20,11 +24,12 @@ export const fetchCategories = async (): Promise<ICategory[]> => {
   return response.json();
 };
 
-export const addproduct = async (product: IProduct): Promise<IProduct> => {
+export const addproduct = async (product: Partial<IProduct>): Promise<IProduct> => {
+  console.log('DATA', product);
   const response = await axios.post(`${BASE_URL}/products`, product);
   return response.data;
 };
 
-export const deleteProduct = async (productId: string): Promise<void> => {
+export const deleteProduct = async (productId: IProduct['_id']): Promise<void> => {
   await axios.delete(`${BASE_URL}/products/${productId}`);
 };

@@ -8,5 +8,4 @@ export interface IProduct {
 export interface ICategory {
   _id: number;
   name: string;
-  items: IProduct[];
 }
