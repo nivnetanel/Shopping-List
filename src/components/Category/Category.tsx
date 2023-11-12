@@ -1,7 +1,8 @@
-// Category.jsx
+import DeleteIcon from '@mui/icons-material/Delete'; // Import delete icon
 import {
   Badge,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -9,10 +10,28 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
+import { useMutation, useQueryClient } from 'react-query'; // Import hooks from React Query
+import { toast } from 'react-toastify';
 
-import { ICategory, IProduct } from '../types/types';
+import { deleteProduct } from '../../api/api';
 
 const Category = ({ category, products }) => {
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation(deleteProduct, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('products');
+      toast.success('המוצר נמחק בהצלחה!');
+    },
+    onError: (error) => {
+      toast.error(`יש בעיה במחיקת המוצר: ${error.message}`);
+    },
+  });
+
+  const handleDelete = (productId) => {
+    deleteMutation.mutate(productId);
+  };
+
   const productsInCategory =
     products?.filter((product) => product.categoryId === category._id) || [];
   const productsInCategoryQuantity = productsInCategory.reduce(
@@ -34,6 +53,13 @@ const Category = ({ category, products }) => {
               primary={`${product.name} - ${product.quantity}`}
               primaryTypographyProps={{ align: 'center', color: 'text.secondary' }}
             />
+            <IconButton
+              onClick={() => handleDelete(product._id)}
+              edge="end"
+              aria-label="delete"
+            >
+              <DeleteIcon />
+            </IconButton>
           </ListItem>
         ))}
       </List>

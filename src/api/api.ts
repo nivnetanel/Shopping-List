@@ -24,3 +24,7 @@ export const addproduct = async (product: IProduct): Promise<IProduct> => {
   const response = await axios.post(`${BASE_URL}/products`, product);
   return response.data;
 };
+
+export const deleteProduct = async (productId: string): Promise<void> => {
+  await axios.delete(`${BASE_URL}/products/${productId}`);
+};
