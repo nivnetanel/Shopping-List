@@ -3,10 +3,13 @@ import axios from 'axios';
 import { ICategory, IProduct } from '../types/types';
 
 let schema = 'https://';
-if (process.env.NODE_ENV !== 'production') {
+if (import.meta.env.DEV) {
   schema = 'http://';
 }
-const BASE_URL = schema + process.env.REACT_APP_API_URL + '/api';
+if (!import.meta.env.VITE_APP_API_URL) {
+  throw new Error('No API URL specified');
+}
+const BASE_URL = schema + import.meta.env.VITE_APP_API_URL + '/api';
 
 export const fetchProducts = async (): Promise<IProduct[]> => {
   const response = await fetch(`${BASE_URL}/products`);
