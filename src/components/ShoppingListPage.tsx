@@ -44,7 +44,7 @@ const ShoppingListPage = () => {
       <AddItem categories={categories || []} />
       <Box my={4} display="flex" justifyContent="center">
         <Typography variant="h6">
-          Total Products Quantity:{' '}
+          סך כמות המוצרים:{' '}
           <Badge badgeContent={totalProductsQuantity} color="secondary" />
         </Typography>
       </Box>

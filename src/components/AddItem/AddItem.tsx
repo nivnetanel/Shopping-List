@@ -32,17 +32,17 @@ const AddItem: React.FC<AddItemProps> = ({ categories }) => {
   const addMutation = useMutation(addproduct, {
     onSuccess: () => {
       queryClient.invalidateQueries('products');
-      toast.success('Product added successfully');
+      toast.success('מוצר התווסף לרשימה!');
       setDialogOpen(false);
     },
     onError: (error: Error) => {
-      toast.error(`Error adding product: ${error.message || 'Unknown error'}`);
+      toast.error(`שגיאה בעת הוספת הפריט: ${error.message || 'Unknown error'}`);
     },
   });
 
   const handleAddProduct = () => {
     if (!productName || selectedCategory === undefined) {
-      toast.error('Please fill all fields');
+      toast.error('נא למלא את כל השדות');
       return;
     }
 
@@ -52,7 +52,7 @@ const AddItem: React.FC<AddItemProps> = ({ categories }) => {
   return (
     <Container maxWidth="sm">
       <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
-        Add Item
+        הוספת פריט{' '}
       </Button>
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
