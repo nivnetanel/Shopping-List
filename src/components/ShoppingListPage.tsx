@@ -4,9 +4,11 @@ import React from 'react';
 import { useQuery } from 'react-query';
 
 import { fetchCategories, fetchProducts } from '../api/api';
+import useTotalProductsQuantity from '../hooks/useTotalProductsQuantity';
 import { ICategory, IProduct } from '../types/types';
 import AddItem from './AddItem/AddItem';
 import Category from './Category/Category';
+
 const LoadingOrError = ({ isLoading, error }) => {
   if (isLoading) {
     return <CircularProgress />;
@@ -16,9 +18,6 @@ const LoadingOrError = ({ isLoading, error }) => {
   }
   return null;
 };
-
-const calculateTotalQuantity = (products: IProduct) =>
-  products?.reduce((acc, product) => acc + product.quantity, 0) || 0;
 
 const ShoppingListPage = () => {
   const {
@@ -37,15 +36,14 @@ const ShoppingListPage = () => {
     staleTime: Infinity,
   });
 
-  const totalProductsQuantity = calculateTotalQuantity(products);
+  const totalProductsQuantity = useTotalProductsQuantity(products || []);
 
   return (
     <Container>
       <AddItem categories={categories || []} />
       <Box my={4} display="flex" justifyContent="center">
         <Typography variant="h6">
-          סך כמות המוצרים:{' '}
-          <Badge badgeContent={totalProductsQuantity} color="secondary" />
+          סך כמות המוצרים: <Badge badgeContent={totalProductsQuantity} color="primary" />
         </Typography>
       </Box>
       <LoadingOrError

@@ -12,6 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
+import Confetti from 'react-confetti';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -26,6 +27,7 @@ const AddItem: React.FC<AddItemProps> = ({ categories }) => {
   const [productName, setProductName] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -34,6 +36,8 @@ const AddItem: React.FC<AddItemProps> = ({ categories }) => {
       queryClient.invalidateQueries('products');
       toast.success('מוצר התווסף לרשימה!');
       setDialogOpen(false);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 4000);
     },
     onError: (error: Error) => {
       toast.error(`שגיאה בעת הוספת הפריט: ${error.message || 'Unknown error'}`);
@@ -51,6 +55,8 @@ const AddItem: React.FC<AddItemProps> = ({ categories }) => {
 
   return (
     <Container maxWidth="sm">
+      {showConfetti && <Confetti />}
+
       <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
         הוספת פריט{' '}
       </Button>
