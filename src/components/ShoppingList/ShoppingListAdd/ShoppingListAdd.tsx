@@ -36,6 +36,8 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
       toast.success('מוצר התווסף לרשימה!');
       setDialogOpen(false);
       setShowConfetti(true);
+      setProductName('');
+      setSelectedCategory(undefined);
       // TODO: Reset the form values, or ask do you want to another?
       setTimeout(() => setShowConfetti(false), 4000);
     },
