@@ -1,4 +1,4 @@
-import { Divider, Grid, List, Paper, Typography } from '@mui/material';
+import { Box, Divider, Grid, List, Paper, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import { fetchProducts } from '../../../api/api';
@@ -30,12 +30,14 @@ const ShoppingItems = ({ category }: { category: ICategory }) => {
         },
       }}
     >
-      <Grid item xs={12} sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-        <Typography variant="h6" gutterBottom align="center" color="primary">
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}
+      >
+        <Typography variant="h2" fontSize="1.2rem" color="primary" textAlign="center">
           {category.name}
         </Typography>
         <ShoppingItemsCount category={category} />
-      </Grid>
+      </Box>
       <Divider />
       <List>
         {(products || []).map((product) => {

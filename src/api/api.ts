@@ -4,7 +4,7 @@ import { ICategory, IProduct } from '../types/types';
 
 let schema = 'https://';
 if (import.meta.env.DEV) {
-  schema = 'http://';
+  schema = 'https://';
 }
 if (!import.meta.env.VITE_APP_API_URL) {
   throw new Error('No API URL specified');

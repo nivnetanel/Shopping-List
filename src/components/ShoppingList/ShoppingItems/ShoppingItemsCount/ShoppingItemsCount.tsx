@@ -1,4 +1,4 @@
-import { Badge, Box, Grid, Paper, Typography } from '@mui/material';
+import { Badge } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import { fetchProducts } from '../../../../api/api';

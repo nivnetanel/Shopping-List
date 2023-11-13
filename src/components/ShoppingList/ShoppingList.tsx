@@ -5,7 +5,7 @@ import { fetchCategories } from '../../api/api';
 import type { ICategory } from '../../types/types';
 import LoadingOrError from '../LoadingOrError/LoadingOrError';
 import ShoppingItems from './ShoppingItems/ShoppingItems';
-import AddItem from './ShoppingListAdd/ShoppingListAdd';
+import ShoppingListAdd from './ShoppingListAdd/ShoppingListAdd';
 import ShoppingListHeader from './ShoppingListHeader/ShoppingListHeader';
 
 const ShoppingListPage = () => {
@@ -21,10 +21,10 @@ const ShoppingListPage = () => {
   }
 
   return (
-    <Stack>
+    <Stack gap={2}>
       <ShoppingListHeader />
 
-      <AddItem categories={categories} />
+      <ShoppingListAdd categories={categories} />
 
       <Stack direction="row" flexWrap="wrap" justifyContent="center" gap={2.5}>
         {categories.map((category) => (

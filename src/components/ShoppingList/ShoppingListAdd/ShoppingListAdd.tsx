@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Box,
   Button,
   Container,
   Dialog,
@@ -16,6 +17,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 import { addproduct } from '../../../api/api';
 import { ICategory, IProduct } from '../../../types/types';
+import { Retryer } from 'react-query/types/core/retryer';
 
 interface ShoppingListAddProps {
   categories: ICategory[];
@@ -30,11 +32,7 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
   const queryClient = useQueryClient();
 
   const addMutation = useMutation(addproduct, {
-    onSuccess: (product) => {
-      // queryClient.setQueryData<IProduct[]>('products', (products) => [
-      //   product,
-      //   ...(products || []),
-      // ]);
+    onSuccess: () => {
       queryClient.invalidateQueries('products');
       toast.success('מוצר התווסף לרשימה!');
       setDialogOpen(false);
@@ -54,11 +52,9 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
       return;
     }
     if (categories.findIndex((category) => category._id === selectedCategory) === -1) {
-      console.log(selectedCategory);
       toast.error('עליך למלא קטגוריה מהרשימה');
       return;
     }
-    console.log('-->', productName, selectedCategory);
 
     addMutation.mutate({ categoryId: selectedCategory, name: productName });
   };
@@ -71,10 +67,11 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
   return (
     <Container maxWidth="sm">
       {showConfetti && <Confetti />}
-
-      <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
-        הוספת פריט{' '}
-      </Button>
+      <Box sx={{ textAlign: 'center' }}>
+        <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
+          הוספת פריט
+        </Button>
+      </Box>
 
       <Dialog
         open={dialogOpen}
@@ -145,7 +142,6 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
           </DialogActions>
         </form>
       </Dialog>
-
       <ToastContainer />
     </Container>
   );
