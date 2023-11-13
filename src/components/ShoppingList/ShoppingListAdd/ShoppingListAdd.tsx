@@ -34,7 +34,6 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
     onSuccess: () => {
       queryClient.invalidateQueries('products');
       toast.success('מוצר התווסף לרשימה!');
-      console.log('toast success!!!!!!');
       setDialogOpen(false);
       setShowConfetti(true);
       // TODO: Reset the form values, or ask do you want to another?

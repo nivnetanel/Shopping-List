@@ -1,4 +1,5 @@
 # Shopping List Application
+
 ![alt text](https://i0.wp.com/blog.apitier.com/wp-content/uploads/2023/02/MERN_Stack.jpg?w=560&ssl=1)
 
 ## Overview
