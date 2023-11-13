@@ -39,3 +39,10 @@ cd your-project-folder
 yarn
 yarn dev
 ```
+
+## Setup .env file 
+
+```bash
+VITE_APP_API_URL=localhost:5000
+```
+
