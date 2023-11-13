@@ -25,25 +25,34 @@ const ShoppingItems = ({ category }: { category: ICategory }) => {
         width: 'fit-content',
         bgcolor: 'background.paper',
         minWidth: '220px',
-        '&:has(ul:empty)': {
+        '&:empty': {
           display: 'none',
         },
       }}
     >
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}
-      >
-        <Typography variant="h2" fontSize="1.2rem" color="primary" textAlign="center">
-          {category.name}
-        </Typography>
-        <ShoppingItemsCount category={category} />
-      </Box>
-      <Divider />
-      <List>
-        {(products || []).map((product) => {
-          return <ProductItem key={`product_${product._id}`} product={product} />;
-        })}
-      </List>
+      {products && products.length > 0 && (
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="h2" fontSize="1.2rem" color="primary" textAlign="center">
+              {category.name}
+            </Typography>
+            <ShoppingItemsCount category={category} />
+          </Box>
+          <Divider />
+          <List>
+            {products.map((product) => {
+              return <ProductItem key={`product_${product._id}`} product={product} />;
+            })}
+          </List>
+        </>
+      )}
     </Paper>
   );
 };

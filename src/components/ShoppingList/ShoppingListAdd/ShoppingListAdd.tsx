@@ -13,10 +13,10 @@ import {
 import React, { useState } from 'react';
 import Confetti from 'react-confetti';
 import { useMutation, useQueryClient } from 'react-query';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { addproduct } from '../../../api/api';
-import { ICategory, IProduct } from '../../../types/types';
+import { ICategory } from '../../../types/types';
 
 interface ShoppingListAddProps {
   categories: ICategory[];
@@ -34,6 +34,7 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
     onSuccess: () => {
       queryClient.invalidateQueries('products');
       toast.success('מוצר התווסף לרשימה!');
+      console.log('toast success!!!!!!');
       setDialogOpen(false);
       setShowConfetti(true);
       // TODO: Reset the form values, or ask do you want to another?
@@ -46,6 +47,9 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
 
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
+    if (addMutation.isLoading) {
+      return;
+    }
     if (!productName || selectedCategory === undefined) {
       toast.error('נא למלא את כל השדות');
       return;
@@ -141,7 +145,6 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
           </DialogActions>
         </form>
       </Dialog>
-      <ToastContainer />
     </Container>
   );
 };
