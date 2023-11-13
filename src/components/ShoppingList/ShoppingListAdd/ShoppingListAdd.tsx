@@ -17,7 +17,6 @@ import { toast, ToastContainer } from 'react-toastify';
 
 import { addproduct } from '../../../api/api';
 import { ICategory, IProduct } from '../../../types/types';
-import { Retryer } from 'react-query/types/core/retryer';
 
 interface ShoppingListAddProps {
   categories: ICategory[];
