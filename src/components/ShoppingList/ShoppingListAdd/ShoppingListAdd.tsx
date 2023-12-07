@@ -16,7 +16,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 import { addproduct } from '../../../api/api';
-import { ICategory } from '../../../types/types';
+import { ICategory, IProduct } from '../../../types/types';
 
 interface ShoppingListAddProps {
   categories: ICategory[];
@@ -31,14 +31,28 @@ const ShoppingListAdd: React.FC<ShoppingListAddProps> = ({ categories }) => {
   const queryClient = useQueryClient();
 
   const addMutation = useMutation(addproduct, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('products');
+    onSuccess: (data: IProduct) => {
+      // Manually update the cache
+      queryClient.setQueryData<IProduct[]>('products', (oldData) => {
+        if (!oldData) return [data]; // If the cache is empty, add the new data
+        // Check if the product is already in the cache
+        const existingProductIndex = oldData.findIndex(
+          (product) => product._id === data._id,
+        );
+        if (existingProductIndex !== -1) {
+          // If the product is already in the cache, update it
+          oldData[existingProductIndex] = data;
+          return [...oldData];
+        }
+        // If the product is not in the cache, add it
+        return [...oldData, data];
+      });
+
       toast.success('מוצר התווסף לרשימה!');
       setDialogOpen(false);
       setShowConfetti(true);
       setProductName('');
       setSelectedCategory(undefined);
-      // TODO: Reset the form values, or ask do you want to another?
       setTimeout(() => setShowConfetti(false), 4000);
     },
     onError: (error: Error) => {
